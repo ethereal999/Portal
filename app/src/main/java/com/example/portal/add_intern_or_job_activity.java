@@ -5,11 +5,15 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatRadioButton;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -51,16 +55,18 @@ public class add_intern_or_job_activity extends AppCompatActivity {
     EditText opDescription;
     EditText opCpi;
     EditText opBranchesAllowed;
-    String img;
-    TextView dateView;
+    String img = "https://firebasestorage.googleapis.com/v0/b/p-portal-1caec.appspot.com/o/Internships%2FiStock-476085198-300x300.jpg?alt=media&token=59d78f78-3baf-4a84-9b80-7191a962fc7c";
+    TextView dateView,pdfSelect, pdfPath;;
 
     //    LocalDate date;
     String date;
+    String url="";
     DatePickerDialog.OnDateSetListener onDateSetListener;
     FirebaseAuth mFirebaseAuth;
     Button registerButton;
     Button btnbrowse, btnupload;
     Uri FilePathUri;
+    Uri pdfUri;
     StorageReference storageReference;
     DatabaseReference databaseReference,database1;
     int Image_Request_Code = 7;
@@ -83,9 +89,9 @@ public class add_intern_or_job_activity extends AppCompatActivity {
         registerButton = findViewById(R.id.register_button);
         internButton = findViewById(R.id.intern_selector);
         jobButton = findViewById(R.id.job_selector);
-        btnbrowse = (Button)findViewById(R.id.btnbrowse);
-        btnupload= (Button)findViewById(R.id.btnupload);;
 
+        pdfSelect = findViewById(R.id.pdfAddTextView);
+        pdfPath = findViewById(R.id.pdfTextView);
         progressDialog = new ProgressDialog(add_intern_or_job_activity.this);
 
 
@@ -137,8 +143,8 @@ public class add_intern_or_job_activity extends AppCompatActivity {
                     final String description = opDescription.getText().toString();
                     final String branch = opBranchesAllowed.getText().toString();
                     final String cpi = opCpi.getText().toString();
-                    final String urli = img;
-
+                    final String urli = getIntent().getStringExtra("Image_URL");
+                    final String pdfu= url;
 
                     if(position.isEmpty() || description.isEmpty() || date.isEmpty() || branch.isEmpty() || cpi.isEmpty()){
                         Toast.makeText(add_intern_or_job_activity.this,"Fields are Empty!",Toast.LENGTH_SHORT).show();
@@ -147,7 +153,7 @@ public class add_intern_or_job_activity extends AppCompatActivity {
 //                        Toast.makeText(add_intern_or_job_activity.this, "CPI can't be more than 10 !",Toast.LENGTH_SHORT).show();
 //                    }
                     else {
-                        intern intern = new intern(companyName, Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).getUid(),position,description,cpi,date,branch,urli);
+                        intern intern = new intern(companyName, Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).getUid(),position,description,cpi,date,branch,urli,pdfu);
 
                         database1 = FirebaseDatabase.getInstance().getReference("Internships");
 
@@ -172,7 +178,8 @@ public class add_intern_or_job_activity extends AppCompatActivity {
                     final String description = opDescription.getText().toString();
                     final String branch = opBranchesAllowed.getText().toString();
                     final String cpi = opCpi.getText().toString();
-                    final String urli = img;
+                    final String urli = getIntent().getStringExtra("Image_URL");;
+                    final String pdfu= url;
 
                     if(position.isEmpty() || description.isEmpty() || date.isEmpty() || branch.isEmpty() || cpi.isEmpty()){
                         Toast.makeText(add_intern_or_job_activity.this,"Fields are Empty!",Toast.LENGTH_SHORT).show();
@@ -181,14 +188,18 @@ public class add_intern_or_job_activity extends AppCompatActivity {
 //                        Toast.makeText(add_intern_or_job_activity.this, "CPI can't be more than 10 !",Toast.LENGTH_SHORT).show();
 //                    }
                     else {
-                        job job = new job(companyName, Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).getUid(),position,description,cpi,date,branch);
-                        FirebaseDatabase.getInstance().getReference("Jobs")
-                                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                        job job = new job(companyName, Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).getUid(),position,description,cpi,date,branch,urli,pdfu);
+                       DatabaseReference database2;
+                        database2 = FirebaseDatabase.getInstance().getReference("Jobs");
+
+
+                        database2= database2.child(Objects.requireNonNull(database2.push().getKey()));
+                        database2.child(Objects.requireNonNull(database2.push().getKey()))
                                 .setValue(job).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
-                                    Toast.makeText(add_intern_or_job_activity.this, "Intern Registration Successful !!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(add_intern_or_job_activity.this, "Job Registration Successful !!", Toast.LENGTH_SHORT).show();
                                 }
                                 else{
                                     Toast.makeText(add_intern_or_job_activity.this,"Registration Unsuccessful, Please try Again",Toast.LENGTH_SHORT).show();
@@ -206,6 +217,7 @@ public class add_intern_or_job_activity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(internButton.isChecked()){
                     jobButton.setChecked(false);
+
                     databaseReference = FirebaseDatabase.getInstance().getReference("Internships");
 
                     DatabaseReference dr,dr1;
@@ -220,7 +232,6 @@ public class add_intern_or_job_activity extends AppCompatActivity {
                     storageReference = storageReference.child(Objects.requireNonNull(dr1.push().getKey()));
 
 
-
                 }
             }
         });
@@ -230,113 +241,106 @@ public class add_intern_or_job_activity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(jobButton.isChecked()){
                     internButton.setChecked(false);
-                    storageReference = FirebaseStorage.getInstance().getReference("Jobs");
                     databaseReference = FirebaseDatabase.getInstance().getReference("Jobs");
+
+                    DatabaseReference dr,dr1;
+                    dr = databaseReference;
+                    databaseReference = databaseReference.child(Objects.requireNonNull(databaseReference.push().getKey()));
+                    dr1 = databaseReference;
+                    databaseReference = databaseReference.child(Objects.requireNonNull(databaseReference.push().getKey()));
+                    storageReference = FirebaseStorage.getInstance().getReference("Jobs");
+
+
+                    storageReference = storageReference.child(Objects.requireNonNull(dr.push().getKey()));
+                    storageReference = storageReference.child(Objects.requireNonNull(dr1.push().getKey()));
+
                 }
             }
         });
 
-        btnbrowse.setOnClickListener(new View.OnClickListener() {
+        pdfSelect.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Image"), Image_Request_Code);
-
+            public void onClick(View v) {
+                if(ContextCompat.checkSelfPermission(add_intern_or_job_activity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                    selectPdf();
+                } else{
+                    ActivityCompat.requestPermissions(add_intern_or_job_activity.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 4);
+                }
             }
         });
-        btnupload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                UploadImage();
-
-            }
-        });
-
-
-
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode==4 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+            selectPdf();
+        } else{
+            Toast.makeText(add_intern_or_job_activity.this,"Please Provide Permission",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void selectPdf(){
+        startActivityForResult(new Intent().setType("application/pdf").setAction(Intent.ACTION_GET_CONTENT), 13);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==13 && data!=null && resultCode==RESULT_OK){
+            pdfUri = data.getData();
+            String filePath = "File Selected: " + Objects.requireNonNull(data.getData()).getPath();
 
-        super.onActivityResult(requestCode, resultCode, data);
+            if(jobButton.isChecked()){
 
-        if (requestCode == Image_Request_Code && resultCode == RESULT_OK && data != null && data.getData() != null) {
+                        storageReference.putFile(pdfUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        url = Objects.requireNonNull(Objects.requireNonNull(taskSnapshot.getMetadata()).getReference()).getDownloadUrl().toString();
+                        Toast.makeText(add_intern_or_job_activity.this,"Upload Successful",Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(add_intern_or_job_activity.this,"Upload Unsuccessful, Please try Again",Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
 
-            FilePathUri = data.getData();
-            Toast.makeText(add_intern_or_job_activity.this, "Testing !!", Toast.LENGTH_SHORT).show();
-
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), FilePathUri);
-
+                    }
+                });
+            } else if(internButton.isChecked()){
+                        storageReference.putFile(pdfUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        url = Objects.requireNonNull(Objects.requireNonNull(taskSnapshot.getMetadata()).getReference()).getDownloadUrl().toString();
+                        Toast.makeText(add_intern_or_job_activity.this,"Upload Successful",Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(add_intern_or_job_activity.this,"Upload Unsuccessful, Please try Again",Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(add_intern_or_job_activity.this,"Uploading, Please wait",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else{
+                Toast.makeText(add_intern_or_job_activity.this,"Please select a type, choose file again",Toast.LENGTH_SHORT).show();
             }
-            catch (IOException e) {
-
-                e.printStackTrace();
-            }
+            pdfPath.setText(filePath);
+        } else{
+            Toast.makeText(add_intern_or_job_activity.this,"Please select a file",Toast.LENGTH_SHORT).show();
         }
     }
 
 
-    public String GetFileExtension(Uri uri) {
-
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri)) ;
-
-    }
-
-
-    public void UploadImage() {
-
-        if (FilePathUri != null) {
-            Toast.makeText(add_intern_or_job_activity.this, "Testing1 !!", Toast.LENGTH_SHORT).show();
-            progressDialog.setTitle("Image is Uploading...");
-            progressDialog.show();
-            final StorageReference storageReference2 = storageReference.child(System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
-            storageReference2.putFile(FilePathUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
-
-
-                            progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "Image Uploaded Successfully ", Toast.LENGTH_LONG).show();
-                            storageReference2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    img = uri.toString();
-                                }
-                            });
 
 
 
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            //displaying the upload progress
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                            progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
-                        }
-                    });
-        }
-        else {
 
-            Toast.makeText(add_intern_or_job_activity.this, "Please Select Image or Add Image Name", Toast.LENGTH_LONG).show();
 
-        }
-    }
 
 
 

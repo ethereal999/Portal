@@ -1,9 +1,11 @@
 package com.example.portal;
 
-public class intern {
-    public String company_name, company_id, company_position, description, cpi_cutoff, branches_allowed, last_day_to_apply, imageURL;
+import java.io.Serializable;
 
-    public intern(String company_name, String company_id, String company_position, String description, String cpi_cutoff, String last_day_to_apply, String branches_allowed,String imageURL){
+public class intern implements Serializable {
+    public String company_name, company_id, company_position, description, cpi_cutoff, branches_allowed, last_day_to_apply, imageURL,pdfURL;
+
+    public intern(String company_name, String company_id, String company_position, String description, String cpi_cutoff, String last_day_to_apply, String branches_allowed,String imageURL,String pdfURL){
         this.company_name = company_name;
         this.company_id = company_id;
         this.company_position = company_position;
@@ -12,9 +14,18 @@ public class intern {
         this.last_day_to_apply = last_day_to_apply;
         this.branches_allowed = branches_allowed;
         this.imageURL = imageURL;
+        this.pdfURL = pdfURL;
     }
     public intern(){
 
+    }
+
+    public String getPdfURL() {
+        return pdfURL;
+    }
+
+    public void setPdfURL(String pdfURL) {
+        this.pdfURL = pdfURL;
     }
 
     public String getImageURL() {

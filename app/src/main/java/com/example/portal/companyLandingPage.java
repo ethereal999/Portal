@@ -26,7 +26,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
-import models.company;
 
 public class companyLandingPage extends AppCompatActivity {
 
@@ -35,6 +34,7 @@ public class companyLandingPage extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     TextView companyName;
     String cName;
+    String image="https://firebasestorage.googleapis.com/v0/b/p-portal-1caec.appspot.com/o/Internships%2FiStock-476085198-300x300.jpg?alt=media&token=59d78f78-3baf-4a84-9b80-7191a962fc7c";
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -53,6 +53,7 @@ public class companyLandingPage extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 cName = Objects.requireNonNull(dataSnapshot.getValue(company.class)).company_getName();
+                image = Objects.requireNonNull(dataSnapshot.getValue(company.class)).getLogo();
                 companyName.setText(cName);
             }
 
@@ -76,7 +77,10 @@ public class companyLandingPage extends AppCompatActivity {
     }
 
     public void goto_add_page(View view) {
-        startActivity(new Intent(companyLandingPage.this, add_intern_or_job_activity.class).putExtra("Company_Name", cName));
+        Bundle extras = new Bundle();
+        extras.putString("Company_Name",cName);
+        extras.putString("Image_URL",image);
+        startActivity(new Intent(companyLandingPage.this, add_intern_or_job_activity.class).putExtras(extras));
         finish();
     }
 }

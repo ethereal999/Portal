@@ -1,13 +1,25 @@
-package models;
+package com.example.portal;
 
 public class student {
-    public String name, email, branch, cpi;
+    public String name, email, branch, cpi,profileImg;
 
-    public student(String name, String email, String branch, String cpi) {
+    public student(String name, String email, String branch, String cpi,String profileImg) {
         this.name = name;
         this.email = email;
         this.branch = branch;
         this.cpi = cpi;
+        this.profileImg = profileImg;
+    }
+
+    public student(){
+
+    }
+    public String getProfileImg() {
+        return profileImg;
+    }
+
+    public void setProfileImg(String profileImg) {
+        this.profileImg = profileImg;
     }
 
     public String student_getName() {

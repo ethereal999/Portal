@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatRadioButton;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ public class LogInActivity extends AppCompatActivity {
     TextView dontHaveAnAccount,mOption,randOption;
     SignInButton googleLogin;
     GoogleSignInClient mGoogleSignInClient;
+    ProgressDialog progressDialog;
     int RC_SIGN_IN = 1;
 
     @Override
@@ -77,7 +79,6 @@ public class LogInActivity extends AppCompatActivity {
         dontHaveAnAccount = findViewById(R.id.TVSignIn);
         stud = findViewById(R.id.student_selector_2);
         comp = findViewById(R.id.company_selector_2);
-        mOption = findViewById(R.id.TVSignIn);
        randOption= findViewById(R.id.randv);
 
 
@@ -110,14 +111,21 @@ public class LogInActivity extends AppCompatActivity {
                             else{
                                 if(stud.isChecked()){
                                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Students");
+                                    progressDialog = new ProgressDialog(LogInActivity.this);
+                                    progressDialog.setMessage("Please wait, Login");
+                                    progressDialog.show();
                                     ref.child(Objects.requireNonNull(mFirebaseAuth.getUid())).addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             if(dataSnapshot.exists()){
+                                                progressDialog.dismiss();
+
                                                 Toast.makeText(LogInActivity.this, "Logged in!", Toast.LENGTH_SHORT).show();
                                                 startActivity(new Intent(LogInActivity.this, studentLandingPage.class));
                                                 finish();
                                             } else{
+                                                progressDialog.dismiss();
+
                                                 Toast.makeText(LogInActivity.this, "Username Not in Students !", Toast.LENGTH_SHORT).show();
                                                 FirebaseAuth.getInstance().signOut();
                                             }
@@ -127,14 +135,19 @@ public class LogInActivity extends AppCompatActivity {
                                     });
                                 } else if(comp.isChecked()){
                                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Companies");
+                                    progressDialog = new ProgressDialog(LogInActivity.this);
+                                    progressDialog.setMessage("Please wait, Login");
+                                    progressDialog.show();
                                     ref.child(Objects.requireNonNull(mFirebaseAuth.getUid())).addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             if(dataSnapshot.exists()){
+                                                progressDialog.dismiss();
                                                 Toast.makeText(LogInActivity.this, "Logged in!", Toast.LENGTH_SHORT).show();
                                                 startActivity(new Intent(LogInActivity.this, companyLandingPage.class));
                                                 finish();
                                             } else{
+                                                progressDialog.dismiss();
                                                 Toast.makeText(LogInActivity.this, "Username Not in Companies !", Toast.LENGTH_SHORT).show();
                                                 FirebaseAuth.getInstance().signOut();
                                             }
@@ -193,7 +206,7 @@ public class LogInActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(stud.isChecked()){
                     comp.setChecked(false);
-                    mOption.setVisibility(View.VISIBLE);
+                    dontHaveAnAccount.setVisibility(View.VISIBLE);
                     randOption.setVisibility(View.VISIBLE);
                     googleLogin.setVisibility(View.VISIBLE);
                 }
@@ -205,7 +218,7 @@ public class LogInActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(comp.isChecked()){
                     stud.setChecked(false);
-                    mOption.setVisibility(View.GONE);
+                    dontHaveAnAccount.setVisibility(View.VISIBLE);
                     randOption.setVisibility(View.GONE);
                     googleLogin.setVisibility(View.GONE);
                 }

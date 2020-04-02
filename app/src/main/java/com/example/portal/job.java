@@ -1,18 +1,39 @@
 package com.example.portal;
 
-public class job {
-    public String company_name, company_id, position, description, cpi_cutoff, branches_allowed, last_day_to_apply;
+import java.io.Serializable;
 
-    public job(String company_name, String company_id, String position, String description, String cpi_cutoff, String last_day_to_apply, String branches_allowed){
+public class job  implements Serializable {
+    public String company_name, company_id, off_position, description, cpi_cutoff, branches_allowed, last_day_to_apply,imageURL,pdfURL;
+
+    public job(String company_name, String company_id, String off_position, String description, String cpi_cutoff, String last_day_to_apply, String branches_allowed,String imageURL,String pdfURL){
         this.company_name = company_name;
         this.company_id = company_id;
-        this.position = position;
+        this.off_position = off_position;
         this.description = description;
         this.cpi_cutoff = cpi_cutoff;
         this.last_day_to_apply = last_day_to_apply;
         this.branches_allowed = branches_allowed;
+        this.imageURL = imageURL;
+        this.pdfURL = pdfURL;
 
+    }
+    public job(){
 
+    }
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public String getPdfURL() {
+        return pdfURL;
+    }
+
+    public void setPdfURL(String pdfURL) {
+        this.pdfURL = pdfURL;
     }
 
     public String getCompany_name() {
@@ -31,12 +52,12 @@ public class job {
         this.company_id = company_id;
     }
 
-    public String getPosition() {
-        return position;
+    public String getOff_position() {
+        return off_position;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setOff_position(String off_position) {
+        this.off_position = off_position;
     }
 
     public String getDescription() {
