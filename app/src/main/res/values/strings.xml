@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Placement  !!!</string>
+    <string name="enter_your_name">Enter Your Name:</string>
+    <string name="enter">Enter</string>
+    <string name="the_calling_activity_was">The Calling activity was</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="log_in">Log in</string>
+    <string name="get_the_name">Get The Name</string>
+    <string name="the_user_name_was">The user name was</string>
+    <string name="add_opportunities">Add Opportunities</string>
+    <string name="intern">Intern</string>
+    <string name="job">Job</string>
+    <string name="position">Company Position</string>
+    <string name="description">Description</string>
+    <string name="branches_allowed">Branches Allowed</string>
+    <string name="cutoff_cpi">Cutoff CPI</string>
+    <string name="application_deadline">Application Deadline</string>
+    <string name="date">Date - </string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="student">Student</string>
+    <string name="company">Company</string>
+    <string name="username">Username</string>
+    <string name="or_sign_in_using">Or Sign in using</string>
+    <string name="back_to_main">Back to Main</string>
+    <string name="signup">SignUp</string>
+    <string name="Check">Check Details</string>
+    <string name="full_name">Full Name</string>
+    <string name="branch">Branch</string>
+    <string name="cpi">CPI</string>
+    <string name="company_name">Company Name</string>
+    <string name="password">Password</string>
+    <string name="already_registered">Already Registered ?</string>
+
+
+</resources>

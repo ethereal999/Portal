@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "150829178146",
+    "firebase_url": "https://p-portal-1caec.firebaseio.com",
+    "project_id": "p-portal-1caec",
+    "storage_bucket": "p-portal-1caec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150829178146:android:d37f548268d612ba97197b",
+        "android_client_info": {
+          "package_name": "com.example.portal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150829178146-g94uas4goeh7kd41d8gpk28l555uu25j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.portal",
+            "certificate_hash": "3b2d42b2b721fe19c6264a813d4044f836a19b79"
+          }
+        },
+        {
+          "client_id": "150829178146-pod7psh0t149rodbu8p25r6f724flm1v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATsEN1_-bq1grPbPD0123YsR0HH88UHR4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150829178146-pod7psh0t149rodbu8p25r6f724flm1v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
