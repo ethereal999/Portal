@@ -3,9 +3,9 @@ package com.example.portal;
 import java.io.Serializable;
 
 public class intern implements Serializable {
-    public String company_name, company_id, company_position, description, cpi_cutoff, branches_allowed, last_day_to_apply, imageURL,pdfURL;
+    public String company_name, company_id, company_position, description, cpi_cutoff, branches_allowed, last_day_to_apply, imageURL,pdfURL,interID;
 
-    public intern(String company_name, String company_id, String company_position, String description, String cpi_cutoff, String last_day_to_apply, String branches_allowed,String imageURL,String pdfURL){
+    public intern(String company_name, String company_id, String company_position, String description, String cpi_cutoff, String last_day_to_apply, String branches_allowed,String imageURL,String pdfURL,String interID){
         this.company_name = company_name;
         this.company_id = company_id;
         this.company_position = company_position;
@@ -14,10 +14,19 @@ public class intern implements Serializable {
         this.last_day_to_apply = last_day_to_apply;
         this.branches_allowed = branches_allowed;
         this.imageURL = imageURL;
+        this.interID = interID;
         this.pdfURL = pdfURL;
     }
     public intern(){
 
+    }
+
+    public String getInterID() {
+        return interID;
+    }
+
+    public void setInterID(String interID) {
+        this.interID = interID;
     }
 
     public String getPdfURL() {

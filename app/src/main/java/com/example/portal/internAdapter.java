@@ -20,12 +20,12 @@ import java.util.ArrayList;
 
 
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-
+public class internAdapter extends RecyclerView.Adapter<internAdapter.MyViewHolder> {
+    OnItemClickListener mListener;
     private Context context;
     private ArrayList<intern> interns;
 
-    MyAdapter(Context c, ArrayList<intern> i)
+    internAdapter(Context c, ArrayList<intern> i)
     {
         context = c;
         interns = i;
@@ -34,7 +34,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview,parent,false);
-        return new MyViewHolder(view);
+        return new MyViewHolder(view,mListener);
 
     }
 
@@ -44,8 +44,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.co_postion.setText(interns.get(position).getPosition());
         Glide.with(context).load(interns.get(position).getImageURL()).into(holder.ImageUrl);
 
-        holder.onClick(position);
+
     }
+    public interface OnItemClickListener
+    {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener)
+    {
+         mListener = listener;
+    }
+
 
     @Override
     public int getItemCount() {
@@ -57,19 +67,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         TextView name,co_postion;
         ImageView ImageUrl;
         Button btn;
-        MyViewHolder(View itemView) {
+        MyViewHolder(View itemView,final OnItemClickListener listener) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.company_name);
             co_postion = (TextView) itemView.findViewById(R.id.company_position);
             ImageUrl = (ImageView) itemView.findViewById(R.id.ImageUrl);
             btn = (Button) itemView.findViewById(R.id.checkDetails);
-        }
-        public void onClick(final int position)
-        {
+
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, position+" is clicked", Toast.LENGTH_SHORT).show();
+                    if(listener != null)
+                    {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION)
+                        {
+                            listener.onItemClick(position);
+                        }
+                    }
                 }
             });
         }

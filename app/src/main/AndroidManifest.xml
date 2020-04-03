@@ -3,6 +3,7 @@
     package="com.example.portal">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".add_intern_or_job_activity"></activity>
+        <activity android:name=".student_job_activity"></activity>
+        <activity android:name=".student_intern_activity" />
+        <activity android:name=".descriptionActivity" />
+        <activity android:name=".add_intern_or_job_activity" />
         <activity android:name=".studentLandingPage" />
         <activity android:name=".companyLandingPage" />
         <activity android:name=".HomeActivity" />

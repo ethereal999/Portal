@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -36,75 +37,34 @@ import java.util.Objects;
 
 public class studentLandingPage extends AppCompatActivity {
 
-    DatabaseReference reference;
-    RecyclerView recyclerView;
-    List<intern> list;
-    MyAdapter adapter;
     FirebaseAuth mFirebaseAuth;
-    private ProgressDialog progressDialog;
     GoogleSignInClient mGoogleSignInClient;
-    protected void onCreate(Bundle savedInstanceState) {
+    TextView studentName;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_landing_page);
 
-        recyclerView = findViewById(R.id.myRecycler);
-        recyclerView.setLayoutManager( new LinearLayoutManager(this));
         mFirebaseAuth = FirebaseAuth.getInstance();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        studentName = findViewById(R.id.student_name_text_view);
 
-
-        reference =  FirebaseDatabase.getInstance().getReference("Internships");
-
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please wait...");
-        progressDialog.show();
-
-
-
-
-        reference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        ref.child("Students").child(Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                progressDialog.dismiss();
-
-                list = new ArrayList<>();
-                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren())
-                {
-                    Iterable<DataSnapshot>  snap = dataSnapshot1.getChildren();
-                    for(DataSnapshot dataSnapshot2: snap) {
-                        intern p = dataSnapshot2.getValue(intern.class);
-                        list.add(p);
-                    }
-                }
-                adapter = new MyAdapter(studentLandingPage.this, (ArrayList<intern>) list);
-                recyclerView.setAdapter(adapter);
-
-//                for () {
-//
-//                    list.add(entry.getValue());
-//
-//
-//                    progressDialog.dismiss();
-//                    Toast.makeText(studentLandingPage.this, "Good", Toast.LENGTH_SHORT).show();
-//
-//
-//                }
-//                Toast.makeText(studentLandingPage.this, "LALALALA", Toast.LENGTH_SHORT).show();
-//                adapter = new MyAdapter(studentLandingPage.this, (ArrayList<intern>) list);
-//                recyclerView.setAdapter(adapter);
+                String[] cName = Objects.requireNonNull(dataSnapshot.getValue(company.class)).company_getName().split(" ");
+                String s = "HI " + cName[0] + " !";
+                studentName.setText(cName[0]);
             }
-
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(studentLandingPage.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
-
 
     public void signOut(View view) {
         FirebaseAuth.getInstance().signOut();
@@ -114,7 +74,19 @@ public class studentLandingPage extends AppCompatActivity {
                 Toast.makeText(studentLandingPage.this, "Signed Out Successfully !", Toast.LENGTH_SHORT).show();
             }
         });
-        startActivity(new Intent(studentLandingPage.this,LogInActivity.class));
+        startActivity(new Intent(studentLandingPage.this, MainActivity.class));
         finish();
     }
+
+    public void to_intern(View view) {
+        startActivity(new Intent(studentLandingPage.this, student_intern_activity.class));
+        finish();
+    }
+
+    public void to_job(View view) {
+        startActivity(new Intent(studentLandingPage.this, student_job_activity.class));
+        finish();
+    }
+
+
 }

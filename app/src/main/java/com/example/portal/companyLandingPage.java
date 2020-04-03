@@ -33,8 +33,7 @@ public class companyLandingPage extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     GoogleSignInClient mGoogleSignInClient;
     TextView companyName;
-    String cName;
-    String image="https://firebasestorage.googleapis.com/v0/b/p-portal-1caec.appspot.com/o/Internships%2FiStock-476085198-300x300.jpg?alt=media&token=59d78f78-3baf-4a84-9b80-7191a962fc7c";
+    String cName,image;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -77,10 +76,8 @@ public class companyLandingPage extends AppCompatActivity {
     }
 
     public void goto_add_page(View view) {
-        Bundle extras = new Bundle();
-        extras.putString("Company_Name",cName);
-        extras.putString("Image_URL",image);
-        startActivity(new Intent(companyLandingPage.this, add_intern_or_job_activity.class).putExtras(extras));
+
+        startActivity(new Intent(companyLandingPage.this, add_intern_or_job_activity.class).putExtra("Company_Name", cName).putExtra("Profile_Pic", image));
         finish();
     }
 }
