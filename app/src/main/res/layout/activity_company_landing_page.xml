@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/home_page"
     android:gravity="center_horizontal|top"
     android:orientation="vertical"
-    android:paddingTop="50dp"
-    android:padding="30dp">
+    android:padding="30dp"
+    android:paddingTop="50dp">
 
     <TextView
         android:id="@+id/company_name_text_view"
@@ -36,10 +37,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="17dp"
-        android:text="Logout"
         android:onClick="signOut"
+        android:text="Logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/app_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="96dp"
+        android:onClick="goto_applications"
+        android:text="View Applications"
+        app:layout_constraintBottom_toTopOf="@+id/goto_add_intern-job_page"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/profile_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="57dp"
+        android:onClick="compprofile"
+        android:text="View Profile"
+        app:layout_constraintBottom_toTopOf="@+id/app_btn"
+        app:layout_constraintStart_toStartOf="@+id/app_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

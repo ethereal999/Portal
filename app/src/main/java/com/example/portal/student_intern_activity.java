@@ -57,8 +57,8 @@ public class student_intern_activity extends AppCompatActivity {
                     }
                 }
                 if (list.isEmpty()) {
-                    Toast.makeText(student_job_activity.this, "No jobs are available", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(student_job_activity.this, studentLandingPage.class));}
+                    Toast.makeText(student_intern_activity.this, "No internships are available", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(student_intern_activity.this, studentLandingPage.class));}
                     adapter = new internAdapter(student_intern_activity.this, list);
                     recyclerView.setAdapter(adapter);
 
@@ -75,8 +75,8 @@ public class student_intern_activity extends AppCompatActivity {
                 }
                 else{
                     progressDialog.dismiss();
-                    Toast.makeText(student_job_activity.this, "No jobs are available", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(student_job_activity.this, studentLandingPage.class));
+                    Toast.makeText(student_intern_activity.this, "No internships are available", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(student_intern_activity.this, studentLandingPage.class));
                 }
 
             }

@@ -74,6 +74,14 @@ public class companyLandingPage extends AppCompatActivity {
         startActivity(new Intent(companyLandingPage.this,MainActivity.class));
         finish();
     }
+    public void goto_applications(View view){
+        startActivity(new Intent(companyLandingPage.this, comp_applications.class));
+        finish();
+    }
+    public void compprofile(View view) {
+        startActivity(new Intent(companyLandingPage.this, Companyprofile.class));
+        finish();
+    }
 
     public void goto_add_page(View view) {
 

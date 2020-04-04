@@ -11,8 +11,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".student_job_activity"></activity>
+        android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity android:name=".change_password"></activity>
+        <activity android:name=".profile_update" />
+        <activity android:name=".Companyprofile" />
+        <activity android:name=".comp_applications" />
+        <activity android:name=".stud_applications" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".student_job_activity" />
         <activity android:name=".student_intern_activity" />
         <activity android:name=".descriptionActivity" />
         <activity android:name=".add_intern_or_job_activity" />

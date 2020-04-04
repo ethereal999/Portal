@@ -161,7 +161,7 @@ public class add_intern_or_job_activity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(add_intern_or_job_activity.this, "Intern Registration Successful !!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(add_intern_or_job_activity.this, "Job Registration Successful !!", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(add_intern_or_job_activity.this, companyLandingPage.class));
                                     finish();
                                 } else {

@@ -32,7 +32,18 @@
     <string name="add_a_brochure">Add a Bronchure</string>
     <string name="password">Password</string>
     <string name="already_registered">Already Registered ?</string>
-    <string name="back">back</string>
-
+    <string name="add_interns_jobs">Add Interns/Jobs</string>
+    <string name="profile">Profile</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="choose_photo">Choose Photo</string>
+    <string name="upload_photo">Upload Photo</string>
+    <string name="check_details">Check Details</string>
+    <string name="back">Back</string>
+    <string name="internships">Internships</string>
+    <string name="jobs">Jobs</string>
+    <string name="check_your_profile">Check Your Profile</string>
+    <string name="offered_position">Offered Position :</string>
+    <string name="offer_type">Offer Type :</string>
 
 </resources>

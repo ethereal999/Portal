@@ -41,6 +41,7 @@ public class studentLandingPage extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     TextView studentName;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +52,11 @@ public class studentLandingPage extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         studentName = findViewById(R.id.student_name_text_view);
 
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref.child("Students").child(Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).getUid()).addValueEventListener(new ValueEventListener() {
+
+
+                ref.child("Students").child(Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String[] cName = Objects.requireNonNull(dataSnapshot.getValue(company.class)).company_getName().split(" ");
@@ -82,9 +86,17 @@ public class studentLandingPage extends AppCompatActivity {
         startActivity(new Intent(studentLandingPage.this, student_intern_activity.class));
         finish();
     }
+    public void profile(View view) {
+        startActivity(new Intent(studentLandingPage.this, ProfileActivity.class));
+        finish();
+    }
 
     public void to_job(View view) {
         startActivity(new Intent(studentLandingPage.this, student_job_activity.class));
+        finish();
+    }
+    public void to_applications_page(View view) {
+        startActivity(new Intent(studentLandingPage.this, stud_applications.class));
         finish();
     }
 
