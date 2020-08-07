@@ -75,7 +75,7 @@
 - Each item include offer type, position, company's name and company's email for communication purposes.
 
 ### Add Intern/Job Page
-![Add Intern/Job Page](https://github.com/Harshal-13/Placement-Portal/blob/master/Placement/app/appImages/applicants.jpg)
+![Add Intern/Job Page](https://github.com/Harshal-13/Placement-Portal/blob/master/Placement/app/appImages/add_intern.jpg)
 - On the add offer page provided to company, the company can add intern/job oppurtunities by providing the requirements for each.
 - Details like Position offered, job description, cutoff CPI are provided as an editText value
 - For commencement date a DatePickerDialog box opens up; later the date is formatted to desired format.
